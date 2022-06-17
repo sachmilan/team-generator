@@ -43,14 +43,14 @@ class App {
                     if (id) {
                         return true;
                     } else {
-                        console.log('Enter an employee ID.');
+                        console.log('Please enter an employee ID.');
                         return false;
                     }
                 }
             },
             {
                 type: "input",
-                message:  ({role}) =>  `Enter ${role}'s email?`,
+                message:  ({role}) =>  `What is the ${role}'s email?`,
                 name: "email",
                 when: (data) => data.role != "Exit",
                 validate: email => {
@@ -104,12 +104,13 @@ class App {
         ];
     }
 
-    
+    //start application
     start() {
         this.nextEmployee();
     }
 
-    //For extra employees
+    //Call inquierer to prompt user to select a role and fill out information about that role. If exit is chosen, the HTML gets rendered.
+    // Else a new employee is created and pushed to tthe aray of employees. Calls to start from the beggining.
     nextEmployee() {
         inquirer.prompt(this.employeePrompt).then(data => {
             switch (data.role) {
@@ -183,6 +184,7 @@ class App {
             var icon = $('<i class="fas fa-${iconClass}">');
             header2.text(" ${e.getRole()}");
             header2.prepend(icon);
+
             var cardBody = $('<div class="card-body text-info">');
             var cardTitle = $('<h5 class="card-title">');
             cardTitle.text("Employee Information:");
@@ -192,21 +194,19 @@ class App {
             cardText2.text("Email: ${e.getEmail()}");
             var cardText3 = $('<p class="card-text">');
             cardText3.text("${field}");
+            cardBody.append(cardTitle);
+            cardBody.append(cardText);
+            cardBody.append(cardText2);
+            cardBody.append(cardText3);
+    
             card.append(header1);
             card.append(header2);
             card.append(cardBody);
             col.append(card);
-            $("#cards").append(col);
-            cardBody.append(cardTitle);
-            cardBody.append(cardText);
-            cardBody.append(cardText2);
-            cardBody.append(cardText3);    
+            $("#cards").append(col);    
             </script>        
             `;
             scripts += cardScript;
-
-
-            
 
         });
         return scripts;
